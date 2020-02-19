@@ -13,8 +13,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-	<h1>Detalhes de Eventos</h1>
-	<h3><a href="/list-eventos" class="waves-effect waves-light btn"><i class="material-icons left">format_list_bulleted</i>Lista de Eventos</a></h3>
+	
+	<header>
+		<nav>
+			<div class="nav-wrapper">
+				<a href="#" class="brand-logo">Detalhes de Evento</a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><a href="/list-eventos" class="waves-effect waves-light btn"><i class="material-icons left">format_list_bulleted</i>Lista de Eventos</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	
 	<div th:each="evento : ${evento}" class="container">
 		<div class="row">
 			<p>Nome: <span th:text="${evento.nome}"></span></p>
@@ -25,12 +35,30 @@
 		
 		<!-- Formulário de Convidados -->
 		<h4>Adicionar Convidados</h4>
+		<th:block th:include="mensagem/mensagem-validacao"></th:block>
 		<form method="post">
 			Nome: <input type="text" value="" name="nome">
 			RG: <input type="text" value="" name="rg">
 			
 			<button class="waves-effect waves-light btn">Adicionar Convidado</button>
 		</form>
+		
+		<h5>Lista de Convidados</h5>
+		<table>
+			<thead>
+				<tr>
+					<td>Nome</td>
+					<td>RG</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="convidado : ${evento.convidados}">
+					<td><span th:text="${convidado.nome}"></span></td>
+					<td><span th:text="${convidado.rg}"></span></td>
+				</tr>
+			</tbody>
+			
+		</table>
 	</div>
 	
 	<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
