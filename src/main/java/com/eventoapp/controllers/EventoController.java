@@ -56,7 +56,7 @@ public class EventoController {
 	}
 	
 	@RequestMapping(value = "/{codigo}", method = RequestMethod.GET)
-	public ModelAndView findById(@PathVariable Long codigo) throws Exception {
+	public ModelAndView findById(@PathVariable Long codigo) {
 		ModelAndView mv = new ModelAndView("evento/detalhes-evento");
 		
 		Evento evento = repository.findByCodigo(codigo);
@@ -66,8 +66,28 @@ public class EventoController {
 		return mv;
 	}
 	
+	@RequestMapping(value = "delete")
+	public String deleteEvento(Long codigo) {
+		
+		Evento evento = repository.findByCodigo(codigo);
+		
+		repository.delete(evento);
+		
+		return "redirect:/list-eventos";
+	}
+	
+	@RequestMapping(value = "delete-convidado")
+	public String deleteConvidado(String rg) {
+		
+		Convidado convidado = convidadoRepository.findByRg(rg);
+		
+		convidadoRepository.delete(convidado);
+		
+		return "redirect:" + convidado.getEvento().getCodigo();
+	}
+	
 	@RequestMapping(value = "/{codigo}", method = RequestMethod.POST)
-	public String save(@PathVariable Long codigo, @Valid Convidado convidado, BindingResult result, RedirectAttributes attributes) {
+	public String saveConvidado(@PathVariable Long codigo, @Valid Convidado convidado, BindingResult result, RedirectAttributes attributes) {
 		
 		if (result.hasErrors()) {
 			attributes.addFlashAttribute("mensagem", "Todos os campos são obrigatórios");

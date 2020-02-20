@@ -1,12 +1,16 @@
 package com.eventoapp.models;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-public class Convidado {
+public class Convidado implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@NotEmpty
